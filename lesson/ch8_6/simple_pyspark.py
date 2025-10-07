@@ -1,7 +1,6 @@
 from pyspark.sql import SparkSession
 import time
 
-
 spark = SparkSession \
     .builder \
     .appName('simple_pyspark') \
