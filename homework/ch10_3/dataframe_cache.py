@@ -49,3 +49,69 @@ company_emp_cnt_df = company_emp_dedup_df.join(
 
 company_emp_cnt_df.show()
 time.sleep(300)
+
+# 나의 예시 DataFrame API
+# from pyspark.sql import SparkSession
+# from pyspark.sql.types import StructType, IntegerType, StringType, StructField
+# from pyspark.sql.functions import col
+# import time;
+#
+# spark = SparkSession \
+#         .builder \
+#         .appName('dataframe_cache') \
+#         .getOrcreate()
+#
+# path1 = 'hdfs:///home/spark/sample/linkedin_jobs/companies/company_industries.csv'
+# schema1 = StructType([
+#     StructField('company_id', IntegerType(), False),
+#     StructField('industry', StringType(), True)
+# ])
+#
+# path2 = 'hdfs:///home/spark/sample/linkedin_jobs/companies/employee_counts.csv'
+# schema2 = StructType([
+#     StructField('company_id', IntegerType(), False),
+#     StructField('employee_count', IntegerType(), True),
+#     StructField('follower_count', IntegerType(), True),
+#     StructField('time_recorded', IntegerType(), True),
+# ])
+#
+# ci_df = spark \
+#         .read \
+#         .option("header", 'true') \
+#         .option('multiLine','true') \
+#         .schema(schema1) \
+#         .csv(path1)
+#
+# ec_df = spark \
+#         .read \
+#         .option("header", 'true') \
+#         .option('multiLine','true') \
+#         .schema(schema2) \
+#         .csv(path2)
+#
+# # 회사별 산업 도메인 수
+# print(ci_df.count())
+#
+# # 회사별 종업원 수
+# print(ec_df.count())
+#
+#
+# filtered_ci = ci_df \
+#                .filter(col('industry') == 'IT Services and IT Consulting') \
+#                .persist()
+#
+# dedup_ec = ec_df \
+#             .dropDuplicates(['company_id']) \
+#             .persist()
+#
+# big_companies = dedup_ec.filter(col('employee_count') >= 1000)
+#
+# joined_df = filtered_ci.join(
+#         other=big_companies,
+#         on='company_id',
+#         how='inner'
+# ).select('company_id','employee_count') \
+#     .sort('employee_count',ascending=False)
+#
+# joined_df.show()
+# time.sleep(300)
