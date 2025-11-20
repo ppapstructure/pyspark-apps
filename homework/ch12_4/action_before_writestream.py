@@ -18,6 +18,7 @@ kafka_source_df = kafka_source_df.selectExpr(
                     "CAST(key AS STRING) AS KEY",
                     "CAST(value AS STRING) AS VALUE"
                 )
+
 cnt = kafka_source_df.count()
 print(cnt)
 
