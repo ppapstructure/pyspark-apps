@@ -65,6 +65,7 @@ spark = SparkSession \
         .appName(app_name) \
         .getOrCreate()
 
+# 여기 이름바꿔야함 .option("subscribe", "lesson.spark-streaming.person_info")
 kafka_source_df = spark.readStream \
                 .format("kafka") \
                 .option("kafka.bootstrap.servers", "kafka01:9092,kafka02:9092,kafka03:9092") \
